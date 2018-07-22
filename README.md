@@ -1,2 +1,0 @@
-# LearnNote
-Learn Note
