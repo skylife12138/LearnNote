@@ -28,3 +28,12 @@
 
 ###libzmq 和 CrossEngine对比：
    CrossEngin将
+
+   
+###libevent:
+   1.bufferevent的可读高水位和低水位的含义：
+     低水位是指当evbuffer缓冲区的可读数据量小于该数值时不会调用用户的读回调函数；
+	 高水位是值当evbuffer缓冲区的可读数据量大于该数值时挂起可读事件，读缓冲区不会从socket中继续读取数据，也避免了因为socket中有可读数据导致一直触发监听读的event形成的死循环。这样做限制的evbuffer缓冲区的大小，只有当evbuffer中的数据量小于高水位值时才会恢复挂起的可读事件继续读取socket的数据；
+   2.bufferevent的读监听和写监听的区别：
+     读监听是指当监听读事件的event检测到socket的读缓冲区有数据时就认为可读，即触发读回调函数；
+	 写监听不能用监听写事件的event检测socket的写缓冲区未满时做为可写,因为大部分时间写缓冲区都不满，导致该event一直触发写回调函数，造成死循环。libevent中只有在真正写时调用函数bufferevent_write()函数时，才会将该event添加(event_add)到event_base中进行监听，而当所有数据都写入到socket的写缓冲区后就删除该event,避免死循环；
