@@ -1,3 +1,7 @@
+
+
+# [参考资料](https://design-patterns.readthedocs.io/zh_CN/latest/creational_patterns/simple_factory.html)
+
 ## 创建型
 
 ### 抽象工厂
